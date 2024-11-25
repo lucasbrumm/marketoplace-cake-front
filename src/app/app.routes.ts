@@ -1,10 +1,10 @@
-import { Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { CakeComponent } from './cake/cake.component';
+import { Routes } from '@angular/router'
+import { HomeComponent } from './home/home.component'
+import { CakeComponent } from './cake/cake.component'
 
 export const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: HomeComponent,
     title: 'Home',
   },
@@ -13,4 +13,4 @@ export const routes: Routes = [
     component: CakeComponent,
     title: 'Cake',
   },
-];
+]

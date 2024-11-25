@@ -4,7 +4,7 @@
     <h1>Lista de bolos</h1>
 
     <div *ngFor="let cake of cakeList" class="cake-list">
-      <div class="cake-card">
+      <div class="cake-card" [routerLink]="['/cake', cake.id]">
         <img src="{{ cake.image }}" />
         <label>{{ cake.name }}</label>
         <label>{{ cake.description }}</label>
