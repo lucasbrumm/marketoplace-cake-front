@@ -16,10 +16,11 @@ export class HomeComponent {
 
   cakeList: Cake[] = []
   searchTerm: string = ''
-  newCake = {
+  newCake: Cake = {
+    id: 0,
     name: '',
     description: '',
-    price: null,
+    price: '',
     image: '',
   }
 
@@ -40,12 +41,68 @@ export class HomeComponent {
   }
 
   addCake() {
-    // this.cakeService.createCake(cake).subscribe(() => {
-    //   this.getCakes()
-    // })
+    // Validação simples para garantir que os campos estão preenchidos
+    if (
+      !this.newCake.name ||
+      !this.newCake.description ||
+      !this.newCake.price ||
+      !this.newCake.image
+    ) {
+      alert('Por favor, preencha todos os campos!')
+      return
+    }
+
+    this.cakeService.createCake(this.newCake).subscribe(
+      (createdCake) => {
+        this.cakeList.push(createdCake)
+        this.resetForm()
+
+        alert('Bolo adicionado com sucesso!')
+      },
+      (error) => {
+        console.error('Erro ao adicionar bolo:', error)
+        alert('Ocorreu um erro ao adicionar o bolo. Tente novamente.')
+      }
+    )
   }
 
-  editCake() {}
+  editCake(cake: Cake) {
+    this.newCake = { ...cake }
+    this.addCake = () => {
+      this.cakeService.updateCake(this.newCake).subscribe((updatedCake) => {
+        const index = this.cakeList.findIndex((c) => c.id === updatedCake.id)
+        if (index > -1) {
+          this.cakeList[index] = updatedCake
+          this.newCake = {
+            id: 0,
+            name: '',
+            description: '',
+            price: '',
+            image: '',
+          }
+        }
+        this.addCake = this.originalAddCake
+      })
+    }
+  }
+  originalAddCake = this.addCake.bind(this)
 
-  deleteCake() {}
+  deleteCake(id: number) {
+    if (confirm('Tem certeza que deseja deletar este bolo?')) {
+      this.cakeService.deleteCake(id).subscribe(() => {
+        this.cakeList = this.cakeList.filter((cake) => cake.id !== id)
+        console.log(`Bolo com ID ${id} foi deletado.`)
+      })
+    }
+  }
+
+  resetForm() {
+    this.newCake = {
+      id: 0,
+      name: '',
+      description: '',
+      price: '',
+      image: '',
+    }
+  }
 }

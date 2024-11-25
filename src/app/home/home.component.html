@@ -55,10 +55,9 @@
         <label>{{ cake.description }}</label>
         <label>{{ cake.price | currency }}</label>
 
-        <!-- Botões Editar e Deletar -->
         <div class="button-group">
-          <button (click)="editCake()">Editar</button>
-          <button (click)="deleteCake()">Deletar</button>
+          <button (click)="editCake(cake)">Editar</button>
+          <button (click)="deleteCake(cake.id)">Deletar</button>
         </div>
       </div>
     </div>
