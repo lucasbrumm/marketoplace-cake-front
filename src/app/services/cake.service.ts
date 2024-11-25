@@ -18,4 +18,16 @@ export class CakeService {
   getCake(id: number): Observable<Cake> {
     return this.client.get<Cake>(`${this.apiUrl}/${id}`)
   }
+
+  createCake(cake: Cake): Observable<Cake> {
+    return this.client.post<Cake>(this.apiUrl, cake)
+  }
+
+  updateCake(cake: Cake): Observable<Cake> {
+    return this.client.put<Cake>(`${this.apiUrl}/${cake.id}`, cake)
+  }
+
+  deleteCake(id: number): Observable<void> {
+    return this.client.delete<void>(`${this.apiUrl}/${id}`)
+  }
 }
